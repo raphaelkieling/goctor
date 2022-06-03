@@ -31,15 +31,15 @@ exams:
     - name: Demonstration
       description: Necessary to understand how goctor works!
       run: echo "goctor::ANY_ISSUE"
-      possibilites:
-            - code: ANY_ISSUE
+      possibilities:
+            - goctorcode: ANY_ISSUE
               message: Try run 'source ./init.sh'
     - name: Checking env
       description: To start the project!
-      run: echo "everything ok"
-      possibilites:
-            - code: RANDOM_ISSUE
-              message: Try run 'source ./init.sh'
+      run: exit 0
+      possibilities:
+            - code: 1
+              message: Try run this command...
 ```
 
 Run: `goctor -f ./example/goctor.yml`

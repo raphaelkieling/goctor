@@ -1,0 +1,25 @@
+version: "1"
+banner:
+    title: Setup
+exams:
+    - name: Database
+      description: The database should be running to be able to execute the app
+      run: |
+        echo "goctor::WITHOUT_DOCKER_COMPOSE"
+        docker-compose ps --services --filter "status=running"
+      possibilities:
+        - goctorcode: WITHOUT_DOCKER_COMPOSE
+          message: Maybe... "docker-compose up"
+        - code: 1
+          message: Install docker-compose first
+
+    - name: Environments
+      description: Show populate environments to be able to run the project
+      run: |
+        if [ "$MY_VARIABLE" == "" ];then
+          echo "goctor::MY_VARIABLE_NOT_FOUND"
+        fi
+      possibilities:
+        - goctorcode: MY_VARIABLE_NOT_FOUND
+          message: Try run "export MY_VARIABLE=3"
+

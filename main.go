@@ -4,8 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/exec"
-	"regexp"
 
 	"github.com/dimiro1/banner"
 	"github.com/gookit/color"
@@ -13,11 +11,9 @@ import (
 
 var flagFile = flag.String("f", "", "Configuration file")
 
-func init() {
-	flag.Parse()
-}
-
 func main() {
+	flag.Parse()
+
 	var conf Configuration
 
 	result, err := conf.readFile(*flagFile)
@@ -32,24 +28,14 @@ func main() {
 	banner.InitString(os.Stdout, true, true, templ)
 
 	for _, exam := range result.Exams {
-		outBytes, err := exec.Command("/bin/bash", "-c", exam.Run).Output()
+		exitCode, goctorcodes, err := exam.execute()
+
 		if err != nil {
-			panic(err)
-		}
-		out := string(outBytes)
-
-		r, _ := regexp.Compile("(goctor::)(.+)")
-		foundCodes := r.FindAllString(out, 99)
-		hasError := len(foundCodes) > 0
-
-		if hasError {
 			anyError = true
 			color.Yellow.Println("🔴 " + exam.Name + " - " + exam.Description)
-			for _, possibility := range exam.Possibilites {
-				for _, code := range foundCodes {
-					if code == "goctor::"+possibility.Code {
-						color.Red.Println("\t " + possibility.Message)
-					}
+			for _, possibility := range exam.Possibilities {
+				if possibility.matchError(exitCode, goctorcodes) {
+					color.Red.Println("\t " + possibility.Message)
 				}
 			}
 		} else {

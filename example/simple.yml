@@ -1,0 +1,11 @@
+version: "1"
+banner:
+    title: Setup
+exams:
+    - name: Environments
+      description: Show populate environments to be able to run the project
+      run: exit 0
+      possibilities:
+        - goctorcode: MY_VARIABLE_NOT_FOUND
+          message: Try run "export MY_VARIABLE=3"
+
