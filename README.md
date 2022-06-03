@@ -44,7 +44,7 @@ exams:
 
 Run: `goctor -f ./example/goctor.yml`
 
-![](./run-example-demo.png)
+![](./run-example-setup.png)
 
 ## Inpiration
 
