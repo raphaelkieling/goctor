@@ -28,18 +28,18 @@ version: "1"
 banner:
     title: Setup Project
 exams:
-    - name: Demonstration
-      description: Necessary to understand how goctor works!
-      run: echo "goctor::ANY_ISSUE"
-      possibilities:
-            - goctorcode: ANY_ISSUE
-              message: Try run 'source ./init.sh'
-    - name: Checking env
-      description: To start the project!
-      run: exit 0
-      possibilities:
-            - code: 1
-              message: Try run this command...
+    - name: Application
+      description: Necessary to start the application
+      steps:
+        - name: NodeJS (version 16.0.0)
+          run: exit 1
+    - name: Postgres
+      description: To start the app database
+      steps:
+        - name: Docker
+          run: exit 1
+        - name: Docker compose
+          run: exit 0
 ```
 
 Run: `goctor -f ./example/goctor.yml`
@@ -50,3 +50,31 @@ Run: `goctor -f ./example/goctor.yml`
 
 The mainly inspiration: https://docs.flutter.dev/get-started/install/windows#run-flutter-doctor
 I only used Flutter one time and i felt in love with the flutter doctor.
+
+## How use
+
+Today we have tree layers in the cli.
+
+```sh
+[] - Exam
+  - Step 1
+    - Possibility 1
+    - Possibility 2
+  - Step 2
+    - Possibility 1
+  - Step 3
+```
+
+The ideia is ever give the step by step for the new developers. Example of a real output:
+
+```sh
+[✔️] - Application
+  [✔️] Nodejs
+  [✔️] NPM or Yarn
+[❕] - Postgres
+  [✔️] Docker
+  [❕] Docker Compose
+    - Try run the `brew install docker-compose`
+  [❕] Datbase runnin
+    - Try run the `docker-compose up`
+```
