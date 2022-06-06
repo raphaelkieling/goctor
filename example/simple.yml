@@ -1,11 +1,21 @@
 version: "1"
 banner:
-    title: Setup
+    title: Setup Project
 exams:
-    - name: Environments
-      description: Show populate environments to be able to run the project
-      run: exit 0
-      possibilities:
-        - goctorcode: MY_VARIABLE_NOT_FOUND
-          message: Try run "export MY_VARIABLE=3"
-
+    - name: Application
+      description: Necessary to start the application
+      steps:
+        - name: NodeJS (version 16.0.0)
+          run: exit 1
+        - name: File .env exist (version 16.0.0)
+          run: exit 0
+    - name: Postgres
+      description: To start the app database
+      steps:
+        - name: Docker
+          run: exit 1
+          possibilities:
+            - code: 1
+              message: Try install with 'brew install docker'
+        - name: Docker compose
+          run: exit 0

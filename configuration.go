@@ -29,15 +29,15 @@ func (p *Possiblity) matchError(exitCode int, goctorCodes []string) bool {
 	return false
 }
 
-type Exam struct {
+type Step struct {
 	Name          string       `yaml:"name"`
 	Description   string       `yaml:"description"`
 	Run           string       `yaml:"run"`
 	Possibilities []Possiblity `yaml:"possibilities"`
 }
 
-func (e *Exam) execute() (int, []string, error) {
-	cmd := exec.Command("/bin/bash", "-c", e.Run)
+func (s *Step) execute() (int, []string, error) {
+	cmd := exec.Command("/bin/bash", "-c", s.Run)
 
 	outBytes, err := cmd.Output()
 	exitStatus := 0
@@ -61,6 +61,26 @@ func (e *Exam) execute() (int, []string, error) {
 	}
 
 	return 0, nil, nil
+}
+
+func (s *Step) getName() string {
+	if len(s.Description) <= 0 {
+		return s.Name
+	}
+	return s.Name + " - " + s.Description
+}
+
+type Exam struct {
+	Name        string `yaml:"name"`
+	Description string `yaml:"description"`
+	Steps       []Step `yaml:"steps"`
+}
+
+func (e *Exam) getName() string {
+	if len(e.Description) <= 0 {
+		return e.Name
+	}
+	return e.Name + " - " + e.Description
 }
 
 type Configuration struct {

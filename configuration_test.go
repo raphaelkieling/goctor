@@ -4,15 +4,15 @@ import (
 	"testing"
 )
 
-func TestExamShouldTakeAllGoctorCodes(t *testing.T) {
-	exam := Exam{
+func TestStepShouldTakeAllGoctorCodes(t *testing.T) {
+	step := Step{
 		Run: `
 			echo "goctor::MY_ERROR_1"
 			echo "goctor::MY_ERROR_2"
 		`,
 	}
 
-	_, goctorcodes, err := exam.execute()
+	_, goctorcodes, err := step.execute()
 
 	if err == nil {
 		t.Fatal("I can't see a error")
@@ -23,12 +23,12 @@ func TestExamShouldTakeAllGoctorCodes(t *testing.T) {
 	}
 }
 
-func TestExamShouldTakeNot0ExitCode(t *testing.T) {
-	exam := Exam{
+func TestStepShouldTakeNot0ExitCode(t *testing.T) {
+	step := Step{
 		Run: "exit 1",
 	}
 
-	exit, _, err := exam.execute()
+	exit, _, err := step.execute()
 
 	if err == nil {
 		t.Fatal("I can't see a error")
@@ -39,8 +39,8 @@ func TestExamShouldTakeNot0ExitCode(t *testing.T) {
 	}
 }
 
-func TestExamShouldTakeAllGoctorcodeAndExitCode(t *testing.T) {
-	exam := Exam{
+func TestStepShouldTakeAllGoctorcodeAndExitCode(t *testing.T) {
+	step := Step{
 		Run: `
 			echo "goctor::ONE"
 			echo "goctor::TWO"
@@ -48,7 +48,7 @@ func TestExamShouldTakeAllGoctorcodeAndExitCode(t *testing.T) {
 		`,
 	}
 
-	exit, goctorcodes, err := exam.execute()
+	exit, goctorcodes, err := step.execute()
 
 	if err == nil {
 		t.Fatal("I can't see a error")

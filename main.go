@@ -28,18 +28,21 @@ func main() {
 	banner.InitString(os.Stdout, true, true, templ)
 
 	for _, exam := range result.Exams {
-		exitCode, goctorcodes, err := exam.execute()
+		color.Green.Println(exam.getName())
+		for _, step := range exam.Steps {
+			exitCode, goctorcodes, err := step.execute()
 
-		if err != nil {
-			anyError = true
-			color.Yellow.Println("🔴 " + exam.Name + " - " + exam.Description)
-			for _, possibility := range exam.Possibilities {
-				if possibility.matchError(exitCode, goctorcodes) {
-					color.Red.Println("\t " + possibility.Message)
+			if err != nil {
+				anyError = true
+				color.Yellow.Println("\t[⚠️] " + step.getName())
+				for _, possibility := range step.Possibilities {
+					if possibility.matchError(exitCode, goctorcodes) {
+						color.Red.Println("\t\t" + possibility.Message)
+					}
 				}
+			} else {
+				color.Green.Println("\t[☑️] " + step.getName())
 			}
-		} else {
-			color.Green.Println("🟢 " + exam.Name + " - " + exam.Description)
 		}
 	}
 

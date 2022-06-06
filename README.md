@@ -33,6 +33,8 @@ exams:
       steps:
         - name: NodeJS (version 16.0.0)
           run: exit 1
+        - name: File .env exist (version 16.0.0)
+          run: exit 0
     - name: Postgres
       description: To start the app database
       steps:
@@ -78,3 +80,5 @@ The ideia is ever give the step by step for the new developers. Example of a rea
   [❕] Datbase runnin
     - Try run the `docker-compose up`
 ```
+
+https://github.com/alecthomas/kong
